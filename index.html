@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>升学地图 · 上海 2026 幼升小深度指南</title>
+    <meta name="description" content="上海幼升小政策解读、学校对比、AI 深度整理工具。免广告，专注深度阅读。">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f7ff;
+            color: #1e293b;
+            line-height: 1.5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #1e4b7a, #3b82f6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+        }
+        .sub {
+            color: #475569;
+            border-left: 4px solid #3b82f6;
+            padding-left: 16px;
+            margin-bottom: 24px;
+        }
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            border-left: 5px solid #3b82f6;
+            padding-left: 16px;
+        }
+        .timeline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .timeline-month {
+            flex: 1;
+            min-width: 220px;
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 16px;
+            border-top: 5px solid #3b82f6;
+        }
+        .month-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: #0f3b5f;
+        }
+        .timeline-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+        .badge {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #eef2ff;
+            font-weight: 600;
+        }
+        .search-area {
+            background: linear-gradient(145deg, #ffffff, #f9f9ff);
+            border-radius: 32px;
+            padding: 24px;
+        }
+        .input-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        input {
+            flex: 3;
+            padding: 14px 20px;
+            border: 1px solid #cbd5e1;
+            border-radius: 60px;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+        button {
+            background: #1e4b7a;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #0f3b5f;
+        }
+        .ai-output {
+            background: #f1f5f9;
+            border-radius: 24px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 6px solid #3b82f6;
+        }
+        .mindmap-cat {
+            font-weight: 700;
+            color: #075985;
+            margin-top: 12px;
+            margin-bottom: 8px;
+        }
+        .mindmap-node {
+            background: white;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .buy-btn {
+            display: inline-block;
+            background: #f59e0b;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 12px;
+            transition: 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+        .buy-btn:hover {
+            background: #d97706;
+        }
+        .premium-tag {
+            background: #fef3c7;
+            border: 1px solid #fde68a;
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        /* 支付弹窗样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .payment-modal {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .modal-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        .modal-subtitle {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        .product-info {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        .product-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        .product-price {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+        }
+        .price-current {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f59e0b;
+        }
+        .price-original {
+            font-size: 1rem;
+            color: #94a3b8;
+            text-decoration: line-through;
+        }
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .payment-option {
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .payment-option:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .payment-option.selected {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .payment-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+        .payment-name {
+            font-weight: 600;
+            color: #1e293b;
+        }
+        .pay-now-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .pay-now-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+        }
+        .close-modal {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .close-modal:hover {
+            color: #1e293b;
+        }
+        .modal-content {
+            position: relative;
+        }
+        .features-list {
+            margin-top: 16px;
+            padding-left: 20px;
+        }
+        .features-list li {
+            margin-bottom: 8px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        .secure-badge {
+            text-align: center;
+            margin-top: 16px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+        .qrcode-section {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .qrcode-section.active {
+            display: block;
+        }
+        .qrcode-placeholder {
+            width: 200px;
+            height: 200px;
+            background: #f1f5f9;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 3rem;
+            color: #cbd5e1;
+        }
+        .qrcode-instruction {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        .back-to-payments {
+            background: none;
+            border: none;
+            color: #3b82f6;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 12px;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #475569;
+            margin: 40px 0 20px;
+        }
+        @media (max-width: 680px) {
+            body { padding: 12px; }
+            .card { padding: 18px; }
+            table, thead, tbody, th, td, tr { display: block; }
+            th { display: none; }
+            td { border: none; position: relative; padding-left: 40%; }
+            td::before { content: attr(data-label); position: absolute; left: 12px; font-weight: bold; }
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card" style="text-align: center;">
+        <h1>🗺️ 升学地图 · 上海站</h1>
+        <div class="sub">2026 年幼升小 · 深度信息导图 · 免广告纯净版</div>
+        <p>📌 数据基于市教委最新政策 + 各区教育局公开文件 | 持续更新至 2026 年 8 月</p>
+    </div>
+
+    <!-- AI 话题深度生成（免费摘要版） -->
+    <div class="card search-area">
+        <h2>🧠 AI 升学助手（免费）</h2>
+        <p style="margin-bottom: 16px;">输入你想了解的上海升学话题，AI 为你生成结构化摘要</p>
+        <div class="input-group">
+            <input type="text" id="topicInput" placeholder="例如：非沪籍幼升小材料 或 徐汇民办摇号" value="非沪籍 2026 上海幼升小条件">
+            <button id="askBtn">✨ 生成摘要</button>
+        </div>
+        <div id="aiResult" class="ai-output" style="display: none;"></div>
+        <div class="premium-tag">
+            💡 以上为 AI 生成摘要。想获取完整深度报告（含数据、案例、策略）？ 
+            <button class="buy-btn" onclick="openPaymentModal('AI 深度报告')">¥9.9 解锁完整版</button>
+        </div>
+    </div>
+
+    <!-- 2026 时间轴（免费） -->
+    <div class="card">
+        <h2>📅 2026 上海幼升小核心时间轴</h2>
+        <div class="timeline">
+            <div class="timeline-month">
+                <div class="month-title">📋 4 月</div>
+                <div class="timeline-item"><span class="badge">4/13-4/26</span> 信息登记</div>
+                <div class="timeline-item" style="font-size: 0.8rem;">• 在园适龄儿童：通过幼儿园获取信息登记空表</div>
+                <div class="timeline-item" style="font-size: 0.8rem;">• 非在园适龄儿童：通过区指定方式办理</div>
+                <div class="timeline-item" style="font-size: 0.8rem;">• 4/26 本市户籍居住地登记入学截止</div>
+            </div>
+            <div class="timeline-month">
+                <div class="month-title">✍️ 5 月</div>
+                <div class="timeline-item"><span class="badge">5/7-5/11</span> 公民办报名</div>
+                <div class="timeline-item" style="font-size: 0.8rem;">• 公办：5/7-5/11</div>
+                <div class="timeline-item" style="font-size: 0.8rem;">• 民办：5/7-5/9（1所+1个调剂志愿）</div>
+                <div class="timeline-item"><span class="badge">5/17-5/31</span> 验证与录取</div>
+                <div class="timeline-item" style="font-size: 0.8rem;">• 公办验证：5/17-5/21（第一批）</div>
+                <div class="timeline-item" style="font-size: 0.8rem;">• 民办录取：5/20-5/23</div>
+            </div>
+            <div class="timeline-month">
+                <div class="month-title">📬 5-8 月</div>
+                <div class="timeline-item"><span class="badge">5/22 起</span> 入学（录取）告知</div>
+                <div class="timeline-item"><span class="badge">8/15 前</span> 发放入学通知书</div>
+            </div>
+            <div class="timeline-month">
+                <div class="month-title">📌 关键提醒</div>
+                <div class="timeline-item">• 信息登记后获取《上海市小学入学信息登记表》</div>
+                <div class="timeline-item">• 未收到短信可登录报名系统查询</div>
+                <div class="timeline-item">• 民办未录取由各区按政策安排入学</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 上海各区教育资源对比：入学人口大区篇（2025版） -->
+    <div class="card">
+        <h2>⚖️ 上海各区教育资源对比：入学人口大区篇（2025版）</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>维度</th>
+                    <th>浦东新区</th>
+                    <th>闵行区</th>
+                    <th>徐汇区</th>
+                    <th>黄浦区</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td data-label="维度">教育标签</td><td data-label="浦东新区">巨无霸 · 内部分化大</td><td data-label="闵行区">鸡血大区 · 民办资源丰富</td><td data-label="徐汇区">教育顶流 · 竞争激烈</td><td data-label="黄浦区">快乐教育 · 市重点率高</td></tr>
+                <tr><td data-label="维度">学校总量</td><td data-label="浦东新区">230所小学（公办210，民办20）</td><td data-label="闵行区">89所小学（公办76，民办13）</td><td data-label="徐汇区">49所小学（公办45，民办4）</td><td data-label="黄浦区">37所小学（公办35，民办2）</td></tr>
+                <tr><td data-label="维度">公办标杆</td><td data-label="浦东新区">明珠小学、福山外国语、六师附小</td><td data-label="闵行区">闵行实验小学、七宝明强小学</td><td data-label="徐汇区">汇师、建襄、向阳、高一</td><td data-label="黄浦区">上外黄浦、卢湾二中心、蓬莱路二小</td></tr>
+                <tr><td data-label="维度">民办代表</td><td data-label="浦东新区">平和、惠立、正达、筑桥</td><td data-label="闵行区">七宝外国语、协和、星河湾、德英乐</td><td data-label="徐汇区">世外、盛大、逸夫、爱菊</td><td data-label="黄浦区">永昌、康德双语</td></tr>
+                <tr><td data-label="维度">民办2025摇号情况</td><td data-label="浦东新区">20所中10所超额摇号</td><td data-label="闵行区">13所中6所超额摇号</td><td data-label="徐汇区">4所全部超额摇号</td><td data-label="黄浦区">2所中永昌摇号，康德全部录取</td></tr>
+                <tr><td data-label="维度">五年一户政策</td><td data-label="浦东新区">部分学校实施</td><td data-label="闵行区">部分学校实施</td><td data-label="徐汇区">全区实施</td><td data-label="黄浦区">全区实施</td></tr>
+                <tr><td data-label="维度">长幼随学政策</td><td data-label="浦东新区">未明确</td><td data-label="闵行区">未明确</td><td data-label="徐汇区">未明确</td><td data-label="黄浦区">✅积极创造条件</td></tr>
+                <tr><td data-label="维度">小升初路径</td><td data-label="浦东新区">户籍对口</td><td data-label="闵行区">户籍对口</td><td data-label="徐汇区">学籍+电脑派位</td><td data-label="黄浦区">学籍对口</td></tr>
+                <tr><td data-label="维度">热门校入户年限</td><td data-label="浦东新区">明珠等热门校需3年以上</td><td data-label="闵行区">春申校区需提前7年1个月（2025年）</td><td data-label="徐汇区">热门校需3年以上</td><td data-label="黄浦区">相对宽松，但逐年收紧</td></tr>
+                <tr><td data-label="维度">适合家庭</td><td data-label="浦东新区">追求多元化选择，能接受区域内差异</td><td data-label="闵行区">冲刺民办，能接受高竞争，提前长期规划入户</td><td data-label="徐汇区">冲刺顶尖名校，能接受最高强度竞争</td><td data-label="黄浦区">求稳，不想太卷，享受市中心资源</td></tr>
+            </tbody>
+        </table>
+        <div class="premium-tag" style="margin-top: 16px;">
+            📊 想了解近 3 年摇号中签率、落榜去向分析？ 
+            <button class="buy-btn" onclick="openPaymentModal('区域深度报告')">¥9.9 解锁完整报告</button>
+        </div>
+    </div>
+
+    <!-- 上海 16 区速览（免费） -->
+    <div class="card">
+        <h2>🏫 上海 16 区教育资源速览</h2>
+        <table>
+            <thead><tr><th>区域</th><th>标签</th><th>代表小学</th><th>竞争程度</th></tr></thead>
+            <tbody>
+                <tr><td data-label="区域">徐汇</td><td data-label="标签">顶流</td><td data-label="代表">世外、盛大、汇师</td><td data-label="竞争">⭐⭐⭐⭐⭐</td></tr>
+                <tr><td data-label="区域">黄浦</td><td data-label="标签">快乐 + 高性价比</td><td data-label="代表">上外黄浦、蓬二</td><td data-label="竞争">⭐⭐</td></tr>
+                <tr><td data-label="区域">杨浦</td><td data-label="标签">教育强区</td><td data-label="代表">打一、二师附小</td><td data-label="竞争">⭐⭐⭐⭐</td></tr>
+                <tr><td data-label="区域">浦东</td><td data-label="标签">航母级 · 两极分化</td><td data-label="代表">明珠、福外</td><td data-label="竞争">⭐⭐⭐⭐⭐</td></tr>
+                <tr><td data-label="区域">静安</td><td data-label="标签">快乐 + 优质公办</td><td data-label="代表">静教院、一师附小</td><td data-label="竞争">⭐⭐⭐</td></tr>
+                <tr><td data-label="区域">闵行</td><td data-label="标签">后起之秀</td><td data-label="代表">七外、明强</td><td data-label="竞争">⭐⭐⭐⭐</td></tr>
+            </tbody>
+        </table>
+        <p style="margin-top: 16px; font-size: 0.8rem;">⚠️ 梯队为民间口碑综合，仅供参考。</p>
+        <div class="premium-tag" style="margin-top: 16px;">
+            🎯 获取 16 区完整择校地图 + 入户年限预警 
+            <button class="buy-btn" onclick="openPaymentModal('16 区完整报告')">¥19.9 解锁全区数据</button>
+        </div>
+    </div>
+
+    <!-- 2025 年上海各区超额摇号民办小学汇总 -->
+    <div class="card">
+        <h2>🎯 2025 年上海各区超额摇号民办小学汇总</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>区域</th>
+                    <th>学校名称</th>
+                    <th>是否购买学位</th>
+                    <th>2025年统招走读计划数</th>
+                    <th>网传激烈程度</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td data-label="区域">徐汇区</td><td data-label="学校名称">上海市世外小学</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">189</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">徐汇区</td><td data-label="学校名称">上海市民办盛大花园小学</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">265</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">徐汇区</td><td data-label="学校名称">上海市徐汇区爱菊小学</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">204</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">徐汇区</td><td data-label="学校名称">上海市徐汇区逸夫小学</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">196</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">静安区</td><td data-label="学校名称">上海上外静安外国语小学</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">135</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">静安区</td><td data-label="学校名称">上海市民办童园(实验)小学</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">119</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">静安区</td><td data-label="学校名称">上海市民办扬波外国语小学</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">118</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">静安区</td><td data-label="学校名称">上海市民办彭浦实验小学</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">159</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">黄浦区</td><td data-label="学校名称">上海民办永昌学校</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">60</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">长宁区</td><td data-label="学校名称">上海民办包玉刚实验学校</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">46</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">长宁区</td><td data-label="学校名称">上海市民办东展小学</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">143</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">普陀区</td><td data-label="学校名称">上海金洲小学</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">235</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">普陀区</td><td data-label="学校名称">上海培佳双语学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">200</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">虹口区</td><td data-label="学校名称">上海市民办宏星小学</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">140</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">虹口区</td><td data-label="学校名称">上海市民办尚外外国语小学</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">171</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">虹口区</td><td data-label="学校名称">上海市民办四中心实验小学</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">103</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">杨浦区</td><td data-label="学校名称">上海民办打一外国语小学</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">151</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">杨浦区</td><td data-label="学校名称">上海民办沪东外国语学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">118</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">杨浦区</td><td data-label="学校名称">上海市长阳实验学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">153</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">杨浦区</td><td data-label="学校名称">上海同大实验学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">147</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">杨浦区</td><td data-label="学校名称">上海杨浦双语学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">215</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">闵行区</td><td data-label="学校名称">上海市民办协和双语学校（小学）</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">70（先锋班）/70（融合班）</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">闵行区</td><td data-label="学校名称">上海市民办万源城协和双语学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">116</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">闵行区</td><td data-label="学校名称">上海市民办德英乐实验学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">110</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">闵行区</td><td data-label="学校名称">上海市七宝外国语小学</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">230</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">闵行区</td><td data-label="学校名称">上海博世凯外国语学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">160</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">闵行区</td><td data-label="学校名称">上海星河湾双语学校（小学）</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">40</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">宝山区</td><td data-label="学校名称">上海民办华曜宝山实验学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">6</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">宝山区</td><td data-label="学校名称">上海宝山区世外学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">55</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">宝山区</td><td data-label="学校名称">上海市同洲模范学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">120</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">嘉定区</td><td data-label="学校名称">上海市民办桃李园实验学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">156</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">嘉定区</td><td data-label="学校名称">上海市民办远东学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">12（普通班）/46（双语班）</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">嘉定区</td><td data-label="学校名称">上海嘉定区世外学校（小学）</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">112</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">嘉定区</td><td data-label="学校名称">上海嘉定区民办华盛怀少学校（小学）</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">76</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">浦东新区</td><td data-label="学校名称">上海市民办平和学校（小学）</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">128</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">浦东新区</td><td data-label="学校名称">上海浦东新区民办惠立学校（小学）</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">108</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">浦东新区</td><td data-label="学校名称">上海浦东新区民办正达外国语小学（北校）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">217</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">浦东新区</td><td data-label="学校名称">上海浦东新区民办正达外国语小学（南校）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">224</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">浦东新区</td><td data-label="学校名称">上海浦东新区民办筑桥实验小学</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">107</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">浦东新区</td><td data-label="学校名称">上海市民办金苹果学校（小学）</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">119</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">浦东新区</td><td data-label="学校名称">上海浦东新区民办向未来外国语小学</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">153</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">浦东新区</td><td data-label="学校名称">上海浦东新区民办未来科技学校（小学）</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">163</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">浦东新区</td><td data-label="学校名称">上海市民办中芯学校（小学）</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">164</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">金山区</td><td data-label="学校名称">上海金山区世外学校（小学）</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">50</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">金山区</td><td data-label="学校名称">上海市民办金盟学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">68</td><td data-label="网传激烈程度">中</td></tr>
+                <tr><td data-label="区域">青浦区</td><td data-label="学校名称">上海青浦区世外学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">68</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">青浦区</td><td data-label="学校名称">上海青浦兰生学校（小学）</td><td data-label="是否购买学位">是</td><td data-label="2025年统招走读计划数">101</td><td data-label="网传激烈程度">高</td></tr>
+                <tr><td data-label="区域">青浦区</td><td data-label="学校名称">上海宋庆龄学校（小学）</td><td data-label="是否购买学位">否</td><td data-label="2025年统招走读计划数">23</td><td data-label="网传激烈程度">高</td></tr>
+            </tbody>
+        </table>
+        <div style="margin-top: 16px; font-size: 0.9rem; line-height: 1.4;">
+            <p><strong>📝 说明</strong></p>
+            <p>数据来源：本表基于2025年5月各区教育局公布的摇号录取结果整理。</p>
+            <p><strong>“网传激烈程度”说明：</strong></p>
+            <p>高：该校为区内传统热门名校，或连续多年触发摇号，报名人数远超招生计划，竞争激烈。</p>
+            <p>中：该校虽触发摇号，但关注度相对较低，或2025年首次由“全部录取”转为“超额摇号”。</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>📌 本网站为独立信息整理工具，内容基于公开政策，具体以各区教育局官网为准。</p>
+        <p>无广告 · 无跟踪 · 深度阅读导向 · 上海幼升小 AI 知识伴侣</p>
+        <p style="margin-top: 12px;">© 2026 升学地图 · <a href="about.html" style="color:#3b82f6;">关于我们</a> | <a href="#" style="color:#3b82f6;">商务合作</a></p>
+    </footer>
+</div>
+
+<!-- 支付弹窗 -->
+<div class="modal-overlay" id="paymentModal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closePaymentModal()">×</button>
+        <div class="payment-modal">
+            <div class="modal-header">
+                <div class="modal-title">💳 选择支付方式</div>
+                <div class="modal-subtitle">安全便捷的在线支付</div>
+            </div>
+
+            <div class="product-info">
+                <div class="product-name" id="productName">AI 深度报告</div>
+                <div class="product-price">
+                    <span class="price-current">¥9.9</span>
+                    <span class="price-original">¥29.9</span>
+                </div>
+                <ul class="features-list">
+                    <li>✅ AI 完整深度报告（含数据、案例、策略）</li>
+                    <li>✅ 可下载 PDF 版本</li>
+                    <li>✅ 30 天内免费更新</li>
+                    <li>✅ 专属答疑服务</li>
+                </ul>
+            </div>
+
+            <div class="payment-methods">
+                <div class="payment-option" onclick="selectPayment('alipay')">
+                    <div class="payment-icon">💙</div>
+                    <div class="payment-name">支付宝</div>
+                </div>
+                <div class="payment-option" onclick="selectPayment('wechat')">
+                    <div class="payment-icon">💚</div>
+                    <div class="payment-name">微信支付</div>
+                </div>
+            </div>
+
+            <div class="qrcode-section" id="qrcodeSection">
+                <div class="qrcode-placeholder" id="qrcodePlaceholder">
+                    📱
+                </div>
+                <div class="qrcode-instruction" id="qrcodeInstruction">
+                    请使用<span id="paymentMethodName"></span>扫码支付
+                </div>
+                <button class="back-to-payments" onclick="backToPayments()">← 返回选择支付方式</button>
+            </div>
+
+            <button class="pay-now-btn" id="payNowBtn" onclick="showQRCode()">
+                立即支付 ¥9.9
+            </button>
+
+            <div class="secure-badge">
+                🔒 安全加密支付 · 7 天无理由退款
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const WORKER_URL = "https://你的 worker.workers.dev";
+    let currentProduct = 'AI 深度报告';
+    let currentPrice = 9.9;
+    let selectedPaymentMethod = null;
+
+    // 打开支付弹窗
+    function openPaymentModal(productName) {
+        currentProduct = productName;
+        document.getElementById('productName').textContent = productName;
+        
+        // 根据产品设置价格
+        if (productName.includes('16 区')) {
+            currentPrice = 19.9;
+            document.querySelector('.price-current').textContent = '¥19.9';
+        } else {
+            currentPrice = 9.9;
+            document.querySelector('.price-current').textContent = '¥9.9';
+        }
+        
+        document.getElementById('paymentModal').classList.add('active');
+    }
+
+    // 关闭支付弹窗
+    function closePaymentModal() {
+        document.getElementById('paymentModal').classList.remove('active');
+        selectedPaymentMethod = null;
+        backToPayments();
+    }
+
+    // 选择支付方式
+    function selectPayment(method) {
+        selectedPaymentMethod = method;
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+        event.currentTarget.classList.add('selected');
+    }
+
+    // 显示二维码
+    function showQRCode() {
+        if (!selectedPaymentMethod) {
+            alert('请先选择支付方式（支付宝或微信）');
+            return;
+        }
+
+        document.getElementById('payNowBtn').style.display = 'none';
+        document.getElementById('qrcodeSection').classList.add('active');
+        
+        const methodName = selectedPaymentMethod === 'alipay' ? '支付宝' : '微信';
+        document.getElementById('paymentMethodName').textContent = methodName;
+        
+        // TODO: 这里需要接入实际的支付二维码 API
+        // 目前显示占位符，实际使用时替换为真实二维码
+        console.log('生成' + methodName + '支付二维码，金额：¥' + currentPrice);
+        
+        // 模拟支付流程 - 实际项目中需要：
+        // 1. 调用后端 API 创建支付订单
+        // 2. 获取支付二维码 URL
+        // 3. 显示二维码（可用 qrcode.js 库生成）
+        // 4. 轮询检查支付状态
+        // 5. 支付成功后解锁内容
+    }
+
+    // 返回支付方式选择
+    function backToPayments() {
+        document.getElementById('payNowBtn').style.display = 'block';
+        document.getElementById('qrcodeSection').classList.remove('active');
+        selectedPaymentMethod = null;
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+    }
+
+    // 点击遮罩关闭弹窗
+    document.getElementById('paymentModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closePaymentModal();
+        }
+    });
+
+    // AI 问答功能
+    async function askDeepSeek(question) {
+        try {
+            const response = await fetch(WORKER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question: question })
+            });
+            if (!response.ok) throw new Error('API 请求失败');
+            const data = await response.json();
+            return data.choices[0].message.content;
+        } catch (error) {
+            console.error(error);
+            return { error: error.message };
+        }
+    }
+
+    function parseAndRender(rawText) {
+        let html = `<div style="font-weight: 700; margin-bottom: 16px;">📌 关于「${document.getElementById('topicInput').value}」的 AI 摘要</div>`;
+        const lines = rawText.split('\n');
+        let inSection = false;
+        for (let line of lines) {
+            line = line.trim();
+            if (!line) continue;
+            if (line.startsWith('#') || line.match(/^[一二三四五六七八九十]、/) || line.match(/^\d+\./)) {
+                html += `<div class="mindmap-cat">${line.replace(/^#+/, '').trim()}</div>`;
+                inSection = true;
+            } else if (line.startsWith('-') || line.startsWith('•')) {
+                html += `<div class="mindmap-node">${line.replace(/^[-•]/, '·').trim()}</div>`;
+            } else {
+                html += `<div class="mindmap-node">${line}</div>`;
+            }
+        }
+        return html;
+    }
+
+    document.getElementById('askBtn').addEventListener('click', async () => {
+        const question = document.getElementById('topicInput').value.trim();
+        if (!question) {
+            alert('请输入一个升学话题～');
+            return;
+        }
+        const aiResultDiv = document.getElementById('aiResult');
+        aiResultDiv.style.display = "block";
+        aiResultDiv.innerHTML = `<div style="text-align:center;">🤖 AI 正在整理「${question}」... 约 5-10 秒</div>`;
+        try {
+            const result = await askDeepSeek(question);
+            if (result.error) {
+                aiResultDiv.innerHTML = `<div style="color:#b91c1c;">生成失败：${result.error}</div>`;
+            } else {
+                const rendered = parseAndRender(result);
+                aiResultDiv.innerHTML = rendered;
+            }
+        } catch (err) {
+            aiResultDiv.innerHTML = `<div style="color:#b91c1c;">网络错误：${err.message}</div>`;
+        }
+    });
+</script>
+</body>
+</html>
